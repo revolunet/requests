@@ -354,63 +354,63 @@ To use HTTP Basic Auth with your proxy, use the `http://user:password@host/` syn
         "http": "http://user:pass@10.10.1.10:3128/",
     }
 
-Compliance
+
+Compatibilité
 ----------
 
-Requests is intended to be compliant with all relevant specifications and
-RFCs where that compliance will not cause difficulties for users. This
-attention to the specification can lead to some behaviour that may seem
-unusual to those not familiar with the relevant specification.
+Requests est destiné à être conforme avec toutes les spécifications et RFC
+pertinentes, tant que cela ne cause pas de difficultés pour l'utilisateur.
+Cette attention aux spécifications peut mener à des comportements qui 
+peuvent sembler inhabituels pour ceux qui n'en sont pas familiers.
 
-Encodings
+Encodages
 ^^^^^^^^^
 
-When you receive a response, Requests makes a guess at the encoding to use for
-decoding the response when you call the ``Response.text`` method. Requests
-will first check for an encoding in the HTTP header, and if none is present,
-will use `chardet <http://pypi.python.org/pypi/chardet>`_ to attempt to guess
-the encoding.
+Lorsque vous recevez une réponse, Requests devine l'encodage à utiliser pour 
+décoder la réponse quand vous accéder à ``Response.text``. Requests commence
+par vérifier l'encodage dans l'en-tête HTTP, et si aucun n'est présent,
+Request utilisera le module `chardet <http://pypi.python.org/pypi/chardet>`_
+pour tenter de deviner l'encodage.
 
-The only time Requests will not do this is if no explicit charset is present
-in the HTTP headers **and** the ``Content-Type`` header contains ``text``. In
-this situation,
-`RFC 2616 <http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.7.1>`_
-specifies that the default charset must be ``ISO-8859-1``. Requests follows
-the specification in this case. If you require a different encoding, you can
-manually set the ``Response.encoding`` property, or use the raw
-``Request.content``.
+Le seul cas ou Requests ne suivra pas cette méthode est quand l'en-tête charset
+n'est pas présent et l'en-tête ``Content-Type`` contient ``text``. Dans ce cas,
+la `RFC 2616 <http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.7.1>`_
+spécifie que le jeu de caractères par défaut doit être ``ISO-8859-1``. Requests
+suit donc les spécifications dans ce cas. Si vous avez besoin d'un encodage
+différent, vous pouvez définir manuellement la propriété ``Response.encoding``
+ou utiliser la réponse brute avec ``Request.content``.
 
-HTTP Verbs
-----------
 
-Requests provides access to almost the full range of HTTP verbs: GET, OPTIONS,
-HEAD, POST, PUT, PATCH and DELETE. The following provides detailed examples of
-using these various verbs in Requests, using the GitHub API.
+Methodes (verbes) HTTP
+----------------------
 
-We will begin with the verb most commonly used: GET. HTTP GET is an idempotent
-method that returns a resource from a given URL. As a result, it is the verb
-you ought to use when attempting to retrieve data from a web location. An
-example usage would be attempting to get information about a specific commit
-from GitHub. Suppose we wanted commit ``a050faf`` on Requests. We would get it
-like so::
+Requests fournit l'accès à toute la gamme des verbes HTTP: GET, OPTIONS,
+HEAD, POST, PUT, PATCH et DELETE. Vous trouverez ci dessous divers exemples
+d'utilisation de ces verbes avec Requests, en utilisant l'API GitHub.
+
+Nous commençons avec les verbes les plus utilisé : GET. La methode HTTP GET est
+une méthode idempotente qui retourne une ressource pour une URL donnée. C'est
+donc ce verbe que vous allez utiliser pour tenter de récupérer des données
+depuis le web. Un exemple d'usage serait de récupérer les informations d'un
+commit spécifique sur GitHub. Admettons que nous souhaitions récupérer le
+commit ``a050faf`` de Requests. On peut le récupérer de cette façon::
 
     >>> import requests
     >>> r = requests.get('https://api.github.com/repos/kennethreitz/requests/git/commits/a050faf084662f3a352dd1a941f2c7c9f886d4ad')
 
-We should confirm that GitHub responded correctly. If it has, we want to work
-out what type of content it is. Do this like so::
+On devrait confirmer que GitHub a répondu correctement. Si c'est le cas on peut
+alors travailler avec le contenu reçu. Voici comment faire::
 
     >>> if (r.status_code == requests.codes.ok):
     ...     print r.headers['content-type']
     ...
     application/json; charset=utf-8
 
-So, GitHub returns JSON. That's great, we can use the JSON module to turn it
-into Python objects. Because GitHub returned UTF-8, we should use the
-``r.text`` method, not the ``r.content`` method. ``r.content`` returns a
-bytestring, while ``r.text`` returns a Unicode-encoded string. I have no plans
-to perform byte-manipulation on this response, so I want any Unicode code
-points encoded.
+Donc, GitHub renvoie du JSON. C'est super, on peut alors utiliser le module
+JSON pour convertir le résultat en object Python. Comme GitHub renvoie de
+l'UTF-8, nous devons accéder à ``r.text`` et pas ``r.content``. ``r.content``
+renvoie un bytestring, alors que ``r.text``renvoie une chaîne encodée en
+unicode.
 
 ::
 
@@ -423,10 +423,10 @@ points encoded.
     >>> print commit_data[u'message']
     makin' history
 
-So far, so simple. Well, let's investigate the GitHub API a little bit. Now,
-we could look at the documentation, but we might have a little more fun if we
-use Requests instead. We can take advantage of the Requests OPTIONS verb to
-see what kinds of HTTP methods are supported on the url we just used.
+Tout simple. Poussons un peu plus loin sur l'API GitHub. Maintenant, nous
+pouvons regarder la documentation, mais ce serait plus fun d'utiliser Requests
+directement. Nous pouvons tirer profit du verbe HTTP OPTIONS pour consulter
+quelles sont les methodes HTTP supportées sur une URL.
 
 ::
 
@@ -434,11 +434,12 @@ see what kinds of HTTP methods are supported on the url we just used.
     >>> verbs.status_code
     500
 
-Uh, what? That's unhelpful! Turns out GitHub, like many API providers, don't
-actually implement the OPTIONS method. This is an annoying oversight, but it's
-OK, we can just use the boring documentation. If GitHub had correctly
-implemented OPTIONS, however, they should return the allowed methods in the
-headers, e.g.
+Comment ça? Cela ne nous aide pas du tout. Il se trouve que GitHubn comme
+beaucoup de fournisseurs d'API n'implémente pas la méthode HTTP OPTIONS.
+C'est assez embétant mais ca va aller, on peut encore consulter la
+documentation. Si GitHub avait correctement implémenté la méhode OPTIONS,
+elle retournerait la liste des méthodes autorisées dans les en-têtes, par
+exemple.
 
 ::
 
@@ -446,13 +447,14 @@ headers, e.g.
     >>> print verbs.headers['allow']
     GET,HEAD,POST,OPTIONS
 
-Turning to the documentation, we see that the only other method allowed for
-commits is POST, which creates a new commit. As we're using the Requests repo,
-we should probably avoid making ham-handed POSTS to it. Instead, let's play
-with the Issues feature of GitHub.
+En regardant la documentation, on découvre que la seule autre méthode HTTP
+autorisée est POST, pour créer un nouveau commit. Comme nous utilisons le
+repository Requests, nous devrions éviter d'envoyer des requêtes assemblées
+manuellement. Nous allons plutôt jouter avec les Issues de GitHub.
 
-This documentation was added in response to Issue #482. Given that this issue
-already exists, we will use it as an example. Let's start by getting it.
+Cette documentation a été ajotuée en réponse à l'issue #482. Sachant que cette
+issue existe encore, nous allons l'utiliser en exemple. Commençons par la
+récupérer.
 
 ::
 
@@ -465,7 +467,7 @@ already exists, we will use it as an example. Let's start by getting it.
     >>> print issue[u'comments']
     3
 
-Cool, we have three comments. Let's take a look at the last of them.
+Cool, nous avons 3 commentaires. Regardons le dernier.
 
 ::
 
@@ -478,17 +480,17 @@ Cool, we have three comments. Let's take a look at the last of them.
     >>> print comments[2][u'body']
     Probably in the "advanced" section
 
-Well, that seems like a silly place. Let's post a comment telling the poster
-that he's silly. Who is the poster, anyway?
+Bon, le commentaire à l'air stupide. Ajoutons un commentaire pour en informer
+son auteur. D'ailleurs, qui est-il ?
 
 ::
 
     >>> print comments[2][u'user'][u'login']
     kennethreitz
 
-OK, so let's tell this Kenneth guy that we think this example should go in the
-quickstart guide instead. According to the GitHub API doc, the way to do this
-is to POST to the thread. Let's do it.
+OK, donc disons à ce Kenneth que l'on pense que cet exemple devrait plutôt aller
+dans la section quickstart. D'après la doc de l'API GitHub, il faut utiliser la
+méthode POST pour ajouter un commentaire. allons-y.
 
 ::
 
@@ -498,9 +500,9 @@ is to POST to the thread. Let's do it.
     >>> r.status_code
     404
 
-Huh, that's weird. We probably need to authenticate. That'll be a pain, right?
-Wrong. Requests makes it easy to use many forms of authentication, including
-the very common Basic Auth.
+Mince, c'est bizarre. On doit avoir besoin d'une authentification. Ca va pas être
+simple, hein ? Non. Requests rend très simple tout sortes d'authentification,
+comme la très classique Basic Auth.
 
 ::
 
@@ -513,10 +515,9 @@ the very common Basic Auth.
     >>> print content[u'body']
     Sounds great! I'll get right on it.
 
-Brilliant. Oh, wait, no! I meant to add that it would take me a while, because
-I had to go feed my cat. If only I could edit this comment! Happily, GitHub
-allows us to use another HTTP verb, PATCH, to edit this comment. Let's do
-that.
+Parfait. Hum, en fait non! j'aimerai modifier mon commentaire. Si seulement je
+pouvais l'éditer! Heureusement, GitHub nous permet d'utiliser un autre verbe,
+PATCH, pour éditer ce commentaire. Essayons.
 
 ::
 
@@ -528,10 +529,10 @@ that.
     >>> r.status_code
     200
 
-Excellent. Now, just to torture this Kenneth guy, I've decided to let him
-sweat and not tell him that I'm working on this. That means I want to delete
-this comment. GitHub lets us delete comments using the incredibly aptly named
-DELETE method. Let's get rid of it.
+Excellent. Bon finalement, juste pour embéter ce Kenneth, j'ai décidé de
+le laisser attendre et de ne pas lui dire que je travaille sur le problème.
+Donc je veux supprimer ce commentaire. GitHub nous permet de supprimer des
+commentaire unqiuement avec le verbe bien nommé DELETE. Allons-y.
 
 ::
 
@@ -541,10 +542,11 @@ DELETE method. Let's get rid of it.
     >>> r.headers['status']
     '204 No Content'
 
-Excellent. All gone. The last thing I want to know is how much of my ratelimit
-I've used. Let's find out. GitHub sends that information in the headers, so
-rather than download the whole page I'll send a HEAD request to get the
-headers.
+Parfait. Plus rien. La dernière chose que je voudrais savoir c'est combien
+j'ai consommé de mon taux de requêtes autorisées. GitHub envoie cette
+information dans les en-têtes HTTP, donc au lieu de télécharger toute la page,
+on peut simplement envoyer une requête HEAD pour récupérer uniquement les
+en-têtes.
 
 ::
 
@@ -555,22 +557,24 @@ headers.
     'x-ratelimit-limit': '5000'
     ...
 
-Excellent. Time to write a Python program that abuses the GitHub API in all
-kinds of exciting ways, 4995 more times.
+Excellent. Il est temps d'écrire un programme Python qui abuse de l'API GitHub
+de toutes les façons possibles, encore 4995 fois :)
 
-Link Headers
-------------
 
-Many HTTP APIs feature Link headers. They make APIs more self describing and discoverable.
+Liens dans les en-têtes
+-----------------------
 
-GitHub uses these for `pagination <http://developer.github.com/v3/#pagination>`_ in their API, for example::
+De nombreuses APIs HTTP fournissent des liens dans les en-têtes (Link headers). Ceci rend les
+APIs plus auto-descriptives et détéctables.
+
+GitHub les utilise dans son API pour la `pagination <http://developer.github.com/v3/#pagination>`_, par exemple::
 
     >>> url = 'https://api.github.com/users/kennethreitz/repos?page=1&per_page=10'
     >>> r = requests.head(url=url)
     >>> r.headers['link']
     '<https://api.github.com/users/kennethreitz/repos?page=2&per_page=10>; rel="next", <https://api.github.com/users/kennethreitz/repos?page=6&per_page=10>; rel="last"'
 
-Requests will automatically parse these link headers and make them easily consumable::
+Requests analyse automatiquement ces liens d'entête et les rends facilement utilisables::
 
     >>> r.links['next']
     'https://api.github.com/users/kennethreitz/repos?page=2&per_page=10'
