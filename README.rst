@@ -1,20 +1,19 @@
-Requests: HTTP for Humans
-=========================
+Requests: HTTP pour les Humains
+===============================
 
 
 .. image:: https://secure.travis-ci.org/kennethreitz/requests.png?branch=develop
         :target: https://secure.travis-ci.org/kennethreitz/requests
 
-Requests is an ISC Licensed HTTP library, written in Python, for human
-beings.
+Requests est une librairie sous licence ISC, écrite en Python, pour les être humains.
 
-Most existing Python modules for sending HTTP requests are extremely
-verbose and cumbersome. Python's builtin urllib2 module provides most of
-the HTTP capabilities you should need, but the api is thoroughly broken.
-It requires an enormous amount of work (even method overrides) to
-perform the simplest of tasks.
+La plupart des modules Python existants pour envoyer des requêtes HTTP sont
+lourds et très verbeux. Le module Python intégré urllib2 fournit la plupart
+des fonctionnalités HTTP dont nous avons besoin, mais l'API est complètement
+moisie. Cela demande beaucoup trop de travail (voir même des écrasements de
+méthodes) pour réaliser les tâches plus simples.
 
-Things shouldn't be this way. Not in Python.
+Cela ne devrait pas se passer comme ça. Pas en Python.
 
 ::
 
@@ -26,53 +25,54 @@ Things shouldn't be this way. Not in Python.
     >>> r.text
     ...
 
-See `the same code, without Requests <https://gist.github.com/973705>`_.
+Voir `le même code, sans Requests <https://gist.github.com/973705>`_.
 
-Requests allow you to send HTTP/1.1 requests. You can add headers, form data,
-multipart files, and parameters with simple Python dictionaries, and access the
-response data in the same way. It's powered by httplib and `urllib3
-<https://github.com/shazow/urllib3>`_, but it does all the hard work and crazy
-hacks for you.
+Requests vous permet d'envoyer des requêtes HTTP/1.1. Vous pouvez ajouter des
+en-têtes, des données de formulaire, des fichiers multipart, et des paramêtres
+avec de simples dictionnaires Python, et accéder aux données de la réponse de
+la même manière. Requests est basé sur httplib et
+`urllib3 <https://github.com/shazow/urllib3>`_, mais fait tout le travail
+compliqué et les bidouilles improbables pour vous.
 
+Fonctionnalités
+---------------
 
-Features
---------
-
-- International Domains and URLs
-- Keep-Alive & Connection Pooling
-- Sessions with Cookie Persistence
-- Browser-style SSL Verification
-- Basic/Digest Authentication
-- Elegant Key/Value Cookies
-- Automatic Decompression
-- Unicode Response Bodies
-- Multipart File Uploads
-- Connection Timeouts
-- Thread-safety
+- Gestion domaines et URLS internationales
+- Keep-Alive & Groupement de connections (Pooling)
+- Sessions et Cookies persistants
+- Verification SSL
+- Authentifications Basic/Digest ou personnalisées
+- Gestion élégante des Cookies clé/valeur
+- Décompression automatique
+- Corps des réponses en unicode
+- Upload de fichiers multiparts
+- Timeouts de connexion
+- supprt de ``.netrc``
+- Thread-safe.
 
 
 Installation
 ------------
 
-To install requests, simply: ::
+Pour installer requests, il suffit de lancer: ::
 
     $ pip install requests
 
-Or, if you absolutely must: ::
+Où, si vraiment c'est obligé: ::
 
     $ easy_install requests
 
-But, you really shouldn't do that.
+Mais ça, vous ne devriez pas.
 
 
 
-Contribute
-----------
+Contriber
+---------
 
-#. Check for open issues or open a fresh issue to start a discussion around a feature idea or a bug. There is a Contributor Friendly tag for issues that should be ideal for people who are not very familiar with the codebase yet.
-#. Fork `the repository`_ on Github to start making your changes to the **develop** branch (or branch off of it).
-#. Write a test which shows that the bug was fixed or that the feature works as expected.
-#. Send a pull request and bug the maintainer until it gets merged and published. :) Make sure to add yourself to AUTHORS_.
+#. Vérifiez les tickets ouvertes ou ouvrez-en, un nouveau pour commencer une discussion autour d'une idée de fonctionnalité ou d'un bug. Il y a un tag 'Contributor Friendly' pour les issues idéales pour ceux qui ne sont pas encore trop familiers avec le codebase.
+#. Forkez le `repository GitHub`_ pour commencer à faire vos changements sur la branche **develop** (ou une branche qui en est issue).
+#. Ecrivez un test qui montre que le bug a été fixé ou que la fonction marche bien comme prévue.
+#. Envoyez une pull request et insistez auprès du mainteneur jusqu'à ce qu'il merge et publie. :) Ajoutez vous au fichier AUTHORS_.
 
-.. _`the repository`: http://github.com/kennethreitz/requests
+.. _`repository GitHub`: http://github.com/kennethreitz/requests
 .. _AUTHORS: https://github.com/kennethreitz/requests/blob/develop/AUTHORS.rst
