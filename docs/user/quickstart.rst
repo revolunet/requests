@@ -28,7 +28,7 @@ Commençons par import le module Requests::
     >>> import requests
 
 Maintenant, essayons de récupérer une page web. Pour cette exemple, récupérons
-la timeline publique de github ::
+la timeline publique de github::
 
     >>> r = requests.get('https://github.com/timeline.json')
 
@@ -40,15 +40,18 @@ simplement. Par exemple, pour faire une requete HTTP POST::
 
     >>> r = requests.post("http://httpbin.org/post")
 
-Pratique, non? Et pour les autres types de requêtes: PUT, DELETE, HEAD et
-OPTIONS ? C'est tout aussi simple::
+Pratique, non? 
+
+Et pour les autres types de requêtes: PUT, DELETE, HEAD et OPTIONS ?
+
+C'est tout aussi simple::
 
     >>> r = requests.put("http://httpbin.org/put")
     >>> r = requests.delete("http://httpbin.org/delete")
     >>> r = requests.head("http://httpbin.org/get")
     >>> r = requests.options("http://httpbin.org/get")
 
-Jusqu'ici tout va bien, et c'est juste un aperçu de ce que Requests peut faire.
+Jusqu'ici tout va bien, et c'est juste un petit aperçu de ce que Requests peut faire.
 
 
 Passer des paramètres dans les URLs
@@ -109,7 +112,7 @@ contenu de la réponse sous forme de bytes::
     >>> r.content
     b'[{"repository":{"open_issues":0,"url":"https://github.com/...
 
-Les réponse avec le header transfer-encodings à ``gzip`` et ``deflate`` sont 
+Les réponse avec l'en-tête transfer-encoding à ``gzip`` et ``deflate`` sont 
 automatiquement décodés pour vous.
 
 Par exemple, pour créer une image à partir de données recues par une requête, vous
@@ -130,14 +133,14 @@ Si vous devez travailler avec des données JSON, Requests dispose dun décodeur 
     >>> r.json
     [{u'repository': {u'open_issues': 0, u'url': 'https://github.com/...
 
-Si jamais le décodage échoue, ``r.json`` renvoie simplement ``None``.
+Si jamais le décodage échoue, ``r.json`` renverra simplement ``None``.
 
 
 Réponse brute
 -------------
 
 Dans de rares cas, si vous avez besoin d'accéder au contenu brut de la 
-réponse serveur, vous pouvez y accéder avec ``r.raw``::
+réponse du serveur, vous pouvez y accéder directement via ``r.raw``::
 
     >>> r.raw
     <requests.packages.urllib3.response.HTTPResponse object at 0x101194810>
@@ -194,8 +197,8 @@ JSON::
     >>> r = requests.post(url, data=json.dumps(payload))
 
 
-POST avec des fichiers Multipart
---------------------------------
+POST de fichiers Multipart
+--------------------------
 
 Requests simplifie l'upload de fichiers encodés en MultiPart::
 
