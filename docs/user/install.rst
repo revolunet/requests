@@ -18,7 +18,7 @@ ou, avec `easy_install <http://pypi.python.org/pypi/setuptools>`_::
 
     $ easy_install requests
 
-Mais, ce n'est pas conseillé <http://www.pip-installer.org/en/latest/other-tools.html#pip-compared-to-easy-install>`_.
+Mais, ce n'est `pas conseillé <http://www.pip-installer.org/en/latest/other-tools.html#pip-compared-to-easy-install>`_.
 
 
 Miroir Cheeseshop
