@@ -102,28 +102,28 @@ SSL n'est pas configuré sur ce domaine, donc cela génère une erreur. Parfait.
 
 Vous pouvez aussi passer au paramètre ``verify`` le chemin vers un fichier ``CA_BUNDLE`` pour les certificats privés. Vous pouvez également définir la variable d'environnement ``REQUESTS_CA_BUNDLE``.
 
-Requests can also ignore verifying the SSL certficate if you set ``verify`` to False.
+Requests peut aussi ignorer les verifications SSL en mettant ``verify`` à False.
 
 ::
 
     >>> requests.get('https://kennethreitz.com', verify=False)
     <Response [200]>
 
-By default, ``verify`` is set to True. Option ``verify`` only applies to host certs.
+Par défautl, ``verify`` est True. L'option ``verify`` s'applique uniquement aux certificats des hôtes.
 
-You can also specify the local cert file either as a path or key value pair::
+Vous pouvez également spcéifier un certificat local, comme un chemin de fichier ou une paire clé/valeur::
 
     >>> requests.get('https://kennethreitz.com', cert=('/path/server.crt', '/path/key'))
     <Response [200]>
 
-If you specify a wrong path or an invalid cert::
+Si vous spécifiez un mauvais chemin ou un certificate invalide::
 
     >>> requests.get('https://kennethreitz.com', cert='/wrong_path/server.pem')
     SSLError: [Errno 336265225] _ssl.c:347: error:140B0009:SSL routines:SSL_CTX_use_PrivateKey_file:PEM lib
 
 
-Workflow du contenu des réponses
---------------------------------
+Process d'accès au contenu des réponses
+---------------------------------------
 
 Par défaut, lorsque vous effectuez une requête, le corps de la réponse n'est pas téléchargé automatiquement. Les en-têtes sont téléchargés, mais le contenu lui-même n'est téléchargé que lorsque vous accédez à l'attribut  :class:`Response.content`.
 
