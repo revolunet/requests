@@ -129,11 +129,11 @@ Réponse JSON
 Si vous devez travailler avec des données JSON, Requests dispose dun décodeur intégré::
 
     >>> import requests
-    >>> r = requests.get('https://github.com/timeline.json')
-    >>> r.json
-    [{u'repository': {u'open_issues': 0, u'url': 'https://github.com/...
+    >>> r = requests.get('https://api.github.com/repos/psf/requests')
+    >>> r.json()
+    {'id': 1362490, 'node_id': 'MDEwOlJlcG9zaXRvcnkxMzYyNDkw', 'name': 'requests',...
 
-Si jamais le décodage échoue, ``r.json`` renverra simplement ``None``.
+Si jamais le décodage échoue, ``r.json()`` renverra simplement ``None``.
 
 
 Réponse brute
